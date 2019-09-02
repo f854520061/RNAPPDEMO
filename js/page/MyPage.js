@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,16 +14,29 @@ import {
   View,
   Text,
   StatusBar,
+  Button
 } from 'react-native';
 
 export default class MyHome extends React.Component {
-    render(){
-        return (
-            <View style={styles.container}>
-                <Text style={styles.welcome}>MyPage</Text>
-            </View>
-        )
-    }
+  render() {
+    const { navigation } = this.props;
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>MyPage</Text>
+        <Button
+          title="改变主题色"
+          onPress={() => {
+            navigation.setParams({
+              theme: {
+                tintColor: 'blue',
+                updateTime: new Date().getTime()
+              }
+            })
+          }}
+        />
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -34,6 +47,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF'
   },
   welcome: {
-      color: 'red'
+    color: 'red'
   }
 });

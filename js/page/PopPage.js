@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -15,41 +15,57 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import {createMaterialTopTabNavigator, createAppContainer} from "react-navigation";
+import { createMaterialTopTabNavigator, createAppContainer } from "react-navigation";
 import NavigationUtil from '../navigator/NavigationUtil';
 
 export default class PopPage extends React.Component {
-    render(){
-        const TabNav = createMaterialTopTabNavigator({
-          PopularTab1:{
-              screen: PopularTab,
-              navigationOptions: {
-                title: 'Tab1'
-              }
+  constructor(props) {
+    super(props);
+    this.tabNames = ['JAVA','Android','IOS','React','React-Native','PHP']
+  }
+  _genTab(){
+    const tabs = {};
+    this.tabNames.forEach((item,index)=>{
+      tabs[`tab${index}`] = {
+        screen: props => <PopularTab {...props} tabLabel={item} />,
+        navigationOptions:{
+          title: item
+        }
+      }
+    })
+    return tabs;
+  }
+  render() {
+    const TabNav = createMaterialTopTabNavigator(
+      this._genTab(),{
+        tabBarOptions:{
+          tabStyle:styles.tabStyle,
+          upperCaseLabel: false, // 是否标签大写,默认为true
+          scrollEnabled: true,
+          style:{
+            backgroundColor:"#678" // TabBar的背景颜色
           },
-          PopularTab2:{
-              screen: PopularTab,
-              navigationOptions: {
-                title: 'Tab2'
-              }
-         }
-        });
-        const TabNavigator = createAppContainer(TabNav);
-        return <TabNavigator />
-    }
+          indicatorStyle: styles.indicatorStyle, // 标签指示器的样式
+          labelStyle: styles.labelStyle // 文字的样式
+        }
+      }
+    );
+    const TabNavigator = createAppContainer(TabNav);
+    return <TabNavigator />
+  }
 }
 
 class PopularTab extends React.Component {
-  render(){
-      const {tabLabel} = this.props;
-      return (
-          <View style={styles.container}>
-              <Text style={styles.welcome}>{tabLabel}</Text>
-              <Text onPress={()=>{
-                NavigationUtil.goPage("DetailPage",{})
-              }}>跳转到详情页</Text>
-          </View>
-      )
+  render() {
+    const { tabLabel } = this.props;
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>{tabLabel}</Text>
+        <Text onPress={() => {
+          NavigationUtil.goPage("DetailPage", {})
+        }}>跳转到详情页</Text>
+      </View>
+    )
   }
 }
 
@@ -61,6 +77,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF'
   },
   welcome: {
-      color: 'red'
+    color: 'red'
+  },
+  tabStyle:{
+    minWidth:50
+  },
+  indicatorStyle:{
+    height:2,
+    backgroundColor:'white'
+  },
+  labelStyle:{
+    fontSize:13,
+    marginTop:6,
+    marginBottom:6
   }
 });
