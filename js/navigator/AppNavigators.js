@@ -8,6 +8,9 @@ import {
 import WelcomePage from '../page/welcomePage';
 import HomePage from '../page/homePage';
 import DetailPage from '../page/detailPage';
+import FetchDemoPage from '../page/FetchDemoPage';
+import AsyncStorageDemoPage from '../page/AsyncStorageDemoPage'
+import DataStoreDemoPage from '../page/DataStoreDemoPage'
 import {connect} from 'react-redux';
 import {createReactNavigationReduxMiddleware,createReduxContainer} from 'react-navigation-redux-helpers';
 export const rootCom = 'Init'; // 设置根路由
@@ -33,6 +36,15 @@ const MainNavigator = createStackNavigator({
         navigationOptions:{
             // header: null,
         }
+    },
+    FetchDemoPage: {
+        screen: FetchDemoPage
+    },
+    AsyncStorageDemoPage: {
+        screen: AsyncStorageDemoPage
+    },
+    DataStoreDemoPage: {
+        screen: DataStoreDemoPage
     }
 })
 
